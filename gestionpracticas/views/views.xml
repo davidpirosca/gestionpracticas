@@ -178,6 +178,7 @@
                     <field name="dni"/>
                     <field name="name"/>
                     <field name="id_ciclo_formativo"/>
+                    <field name="edad"/>
                 </tree>
             </field>
         </record>
@@ -234,6 +235,7 @@
                     <field name="dni"/>
                     <field name="name"/>
                     <field name="id_ciclo_formativo"/>
+                    <field name="edad"/>
                 </tree>
             </field>
         </record>

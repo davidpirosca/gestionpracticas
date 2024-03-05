@@ -17,6 +17,16 @@ class GestionPracticasProfesor(models.Model):
     id_alumnos = fields.One2many('gestionpracticas.alumno', 'profesor', string='Alumnos')
     foto = fields.Binary(string="Foto")
     total_alumnos = fields.Integer(string="Total de Alumnos", compute="_compute_total_alumnos", store=True)
+    edad = fields.Integer(string="Edad", compute="_compute_edad", store=True)
+
+    @api.depends('fecha_nacimiento')
+    def _compute_edad(self):
+        for profesor in self:
+            if profesor.fecha_nacimiento:
+                nacimiento = profesor.fecha_nacimiento
+                hoy = datetime.now().date()
+                diferencia = hoy - nacimiento
+                profesor.edad = int(diferencia.days / 365.25)
 
     @api.model
     def send_welcome_email(self):
@@ -113,6 +123,16 @@ class GestionPracticasAlumno(models.Model):
     id_ciclo_formativo = fields.Many2one('gestionpracticas.ciclos_formativos', string='Ciclo Formativo', required=True)
     profesor = fields.Many2one('gestionpracticas.profesor', string='Profesor')
     foto = fields.Binary(string="Foto")
+    edad = fields.Integer(string="Edad", compute="_compute_edad", store=True)
+
+    @api.depends('fecha_nacimiento')
+    def _compute_edad(self):
+        for alumno in self:
+            if alumno.fecha_nacimiento:
+                nacimiento = alumno.fecha_nacimiento
+                hoy = datetime.now().date()
+                diferencia = hoy - nacimiento
+                alumno.edad = int(diferencia.days / 365.25)
 
     @api.constrains('dni')
     def _check_dni_format(self):
